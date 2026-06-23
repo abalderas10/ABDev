@@ -19,11 +19,11 @@ export function SiteNav() {
   return (
     <nav>
       <div className="nav-inner">
-        <a href="#" className="logo" aria-label="ABDEV">
+        <a href="#" className="logo" aria-label="ABDev">
           <span className="logo-mark" aria-hidden="true" />
           <span className="logo-word">
             <span className="logo-ab">AB</span>
-            <span className="logo-dev">DEV</span>
+            <span className="logo-dev">Dev</span>
           </span>
         </a>
         <ul className="nav-links">
