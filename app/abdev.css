@@ -1793,6 +1793,86 @@
 .cart-send:hover { opacity: 0.9; transform: translateY(-1px); }
 .cart-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
+/* Capabilities picker (Paquetes) ------------------------------------------ */
+.cap-head {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.cap-hint {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--ink-muted);
+  margin-left: 6px;
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.cap-card {
+  position: relative;
+  text-align: left;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--body);
+  transition: border-color 0.2s, transform 0.2s, background 0.2s;
+}
+.cap-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.cap-card.on {
+  border-color: var(--success);
+  background:
+    radial-gradient(circle at top right, rgba(16,185,129,0.10), transparent 55%),
+    var(--bg-1);
+}
+.cap-icon {
+  display: inline-flex;
+  width: 38px; height: 38px;
+  align-items: center; justify-content: center;
+  border-radius: 10px;
+  background: var(--bg-2);
+  color: var(--accent);
+  margin-bottom: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+.cap-card.on .cap-icon { color: var(--success); }
+.cap-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.cap-desc { font-size: 12px; line-height: 1.45; color: var(--ink-muted); }
+.cap-check {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--success);
+  color: #fff;
+  font-size: 12px; font-weight: 700;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.18s, transform 0.18s;
+}
+.cap-card.on .cap-check { opacity: 1; transform: scale(1); }
+.cap-count {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-dim);
+  margin-bottom: 26px;
+}
+.cap-count .d {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--success);
+}
+
 /* Quote request form (Paquetes) ------------------------------------------- */
 .quote-wrap { max-width: 560px; margin: 0 auto; }
 .quote-card {

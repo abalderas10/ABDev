@@ -1,15 +1,75 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
+import {
+  Bot,
+  CalendarCheck,
+  CreditCard,
+  KeyRound,
+  LayoutDashboard,
+  ShoppingBag,
+  Zap,
+} from "lucide-react";
 import { Reveal } from "@/components/abdev/reveal";
+import { WhatsAppIcon } from "@/components/abdev/icons";
 import { waLink } from "@/lib/contact";
 
-const PROJECT_TYPES = [
-  "No estoy seguro / quiero asesoría",
-  "Landing o sitio sencillo",
-  "Sitio multi-página + blog/CMS",
-  "Sistema/dashboard con base de datos",
-  "Ecosistema completo (web + automatización + agente AI)",
+interface Capability {
+  id: string;
+  label: string;
+  desc: string;
+  icon: ReactNode;
+}
+
+const CAPABILITIES: Capability[] = [
+  {
+    id: "whatsapp-lead",
+    label: "Contacto por WhatsApp",
+    desc: "Captura de leads directo a tu base de datos.",
+    icon: <WhatsAppIcon width={20} height={20} />,
+  },
+  {
+    id: "auth",
+    label: "Login social",
+    desc: "Acceso con Google, Apple, correo y más.",
+    icon: <KeyRound size={20} strokeWidth={1.8} />,
+  },
+  {
+    id: "ai-agent",
+    label: "Agente AI",
+    desc: "Atiende y responde a tus clientes por ti.",
+    icon: <Bot size={20} strokeWidth={1.8} />,
+  },
+  {
+    id: "realtime-edge",
+    label: "Realtime + Edge",
+    desc: "Datos en vivo y baja latencia global.",
+    icon: <Zap size={20} strokeWidth={1.8} />,
+  },
+  {
+    id: "store",
+    label: "Tienda en línea",
+    desc: "Catálogo, carrito y gestión de pedidos.",
+    icon: <ShoppingBag size={20} strokeWidth={1.8} />,
+  },
+  {
+    id: "payments",
+    label: "Pagos / Stripe",
+    desc: "Cobra en línea, suscripciones y membresías.",
+    icon: <CreditCard size={20} strokeWidth={1.8} />,
+  },
+  {
+    id: "scheduling",
+    label: "Agendar citas",
+    desc: "Reservas, calendario y recordatorios.",
+    icon: <CalendarCheck size={20} strokeWidth={1.8} />,
+  },
+  {
+    id: "dashboard",
+    label: "Panel / Dashboard",
+    desc: "Administra tu operación desde un solo lugar.",
+    icon: <LayoutDashboard size={20} strokeWidth={1.8} />,
+  },
 ];
 
 export function Packages() {
@@ -17,15 +77,35 @@ export function Packages() {
   const [contact, setContact] = useState("");
   const [project, setProject] = useState("");
   const [kind, setKind] = useState("");
+  const [selected, setSelected] = useState<string[]>([]);
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
 
   const canSend =
     name.trim() !== "" && contact.trim() !== "" && project.trim() !== "";
 
+  function toggle(id: string) {
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+    );
+  }
+
+  function reset() {
+    setName("");
+    setContact("");
+    setProject("");
+    setKind("");
+    setSelected([]);
+    setStatus("idle");
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!canSend || status === "sending") return;
     setStatus("sending");
+
+    const capLabels = CAPABILITIES.filter((c) => selected.includes(c.id)).map(
+      (c) => c.label,
+    );
 
     // 1) Best-effort: save the lead to Supabase. Never blocks the UX —
     // WhatsApp below is the guaranteed channel.
@@ -33,7 +113,13 @@ export function Packages() {
       await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, contact, project, budget: kind }),
+        body: JSON.stringify({
+          name,
+          contact,
+          project,
+          budget: kind,
+          capabilities: capLabels,
+        }),
       });
     } catch {
       // ignore network/config errors — we still open WhatsApp
@@ -44,6 +130,9 @@ export function Packages() {
       "Hola Alberto, quiero una cotización para mi proyecto.\n\n" +
       `▸ Proyecto: ${project.trim()}\n` +
       (kind ? `▸ Tipo: ${kind}\n` : "") +
+      (capLabels.length
+        ? `▸ Capacidades de interés: ${capLabels.join(", ")}\n`
+        : "") +
       `▸ Nombre: ${name.trim()}\n` +
       `▸ Contacto: ${contact.trim()}`;
     window.open(waLink(msg), "_blank", "noopener,noreferrer");
@@ -63,10 +152,52 @@ export function Packages() {
           </div>
           <p className="h2-sub">
             Cada proyecto es distinto, así que no vendemos precios de catálogo.
-            Cuéntanos de qué trata, déjanos tus datos y te enviamos una propuesta
-            con alcance y precio — normalmente en menos de 24 horas.
+            Marca las capacidades que te interesan, cuéntanos tu idea y te
+            enviamos una propuesta con alcance y precio — normalmente en menos de
+            24 horas.
           </p>
         </Reveal>
+
+        {status !== "done" && (
+          <Reveal>
+            <div className="cap-head">
+              ¿Qué capacidades te interesan?{" "}
+              <span className="cap-hint">
+                Toca las que te gusten — se marcan con ✓
+              </span>
+            </div>
+            <div className="cap-grid" role="group" aria-label="Capacidades">
+              {CAPABILITIES.map((c) => {
+                const on = selected.includes(c.id);
+                return (
+                  <button
+                    type="button"
+                    key={c.id}
+                    className={`cap-card${on ? " on" : ""}`}
+                    aria-pressed={on}
+                    onClick={() => toggle(c.id)}
+                  >
+                    <span className="cap-check" aria-hidden={!on}>
+                      ✓
+                    </span>
+                    <span className="cap-icon">{c.icon}</span>
+                    <span className="cap-title">{c.label}</span>
+                    <span className="cap-desc">{c.desc}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {selected.length > 0 && (
+              <div className="cap-count">
+                <span className="d" />
+                {selected.length}{" "}
+                {selected.length === 1
+                  ? "capacidad seleccionada"
+                  : "capacidades seleccionadas"}
+              </div>
+            )}
+          </Reveal>
+        )}
 
         <Reveal className="quote-wrap">
           {status === "done" ? (
@@ -77,17 +208,7 @@ export function Packages() {
                 Abrimos WhatsApp para que termines de enviarlo. Te respondemos
                 con una cotización a la medida lo antes posible.
               </p>
-              <button
-                type="button"
-                className="quote-reset"
-                onClick={() => {
-                  setName("");
-                  setContact("");
-                  setProject("");
-                  setKind("");
-                  setStatus("idle");
-                }}
-              >
+              <button type="button" className="quote-reset" onClick={reset}>
                 Enviar otro proyecto
               </button>
             </div>
@@ -118,11 +239,21 @@ export function Packages() {
                   onChange={(e) => setKind(e.target.value)}
                 >
                   <option value="">Elige una opción…</option>
-                  {PROJECT_TYPES.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
+                  <option value="No estoy seguro / quiero asesoría">
+                    No estoy seguro / quiero asesoría
+                  </option>
+                  <option value="Landing o sitio sencillo">
+                    Landing o sitio sencillo
+                  </option>
+                  <option value="Sitio multi-página + blog/CMS">
+                    Sitio multi-página + blog/CMS
+                  </option>
+                  <option value="Sistema/dashboard con base de datos">
+                    Sistema/dashboard con base de datos
+                  </option>
+                  <option value="Ecosistema completo (web + automatización + agente AI)">
+                    Ecosistema completo (web + automatización + agente AI)
+                  </option>
                 </select>
               </div>
 
