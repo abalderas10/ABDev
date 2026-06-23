@@ -1792,6 +1792,74 @@
 }
 .cart-send:hover { opacity: 0.9; transform: translateY(-1px); }
 .cart-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* Quote request form (Paquetes) ------------------------------------------- */
+.quote-wrap { max-width: 560px; margin: 0 auto; }
+.quote-card {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.quote-field { display: flex; flex-direction: column; gap: 8px; }
+.quote-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.quote-opt { color: var(--ink-muted); text-transform: none; letter-spacing: 0; }
+.quote-select { width: 100%; cursor: pointer; appearance: none; }
+.quote-submit {
+  width: 100%;
+  padding: 13px;
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--body);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background 0.2s, transform 0.2s;
+}
+.quote-submit:hover:not(:disabled) { background: var(--accent-2); transform: translateY(-1px); }
+.quote-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+.quote-meta {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-muted);
+}
+.quote-success { text-align: center; align-items: center; gap: 12px; }
+.quote-success-mark {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-dim); color: var(--accent);
+  font-size: 22px; font-weight: 700;
+}
+.quote-success h3 { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--ink); }
+.quote-success p { color: var(--ink-dim); font-size: 14px; line-height: 1.5; max-width: 380px; }
+.quote-reset {
+  margin-top: 4px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-dim);
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 13px; font-family: var(--body); cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.quote-reset:hover { border-color: var(--ink-dim); color: var(--ink); }
+@media (max-width: 560px) {
+  .quote-card .cart-row { grid-template-columns: 1fr; }
+}
+
 .cart-restore-bar {
   position: fixed;
   bottom: 24px;
