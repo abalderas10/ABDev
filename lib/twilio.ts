@@ -23,9 +23,6 @@ interface SendArgs {
   channel?: "sms" | "whatsapp";
 }
 
-/** Owner's number to alert about new leads (defaults to ABDev's number). */
-const DEFAULT_NOTIFY_TO = "+525561800423";
-
 export async function sendTwilioMessage({
   to,
   body,
@@ -74,16 +71,4 @@ export async function sendTwilioMessage({
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : "exception" };
   }
-}
-
-/**
- * Alert the business owner about a new lead. Prefers WhatsApp when configured,
- * otherwise falls back to SMS. Always best-effort — never throws.
- */
-export async function notifyOwner(body: string): Promise<TwilioResult> {
-  const to = process.env.LEAD_NOTIFY_TO || DEFAULT_NOTIFY_TO;
-  const channel: "sms" | "whatsapp" = process.env.TWILIO_WHATSAPP_FROM
-    ? "whatsapp"
-    : "sms";
-  return sendTwilioMessage({ to, body, channel });
 }
