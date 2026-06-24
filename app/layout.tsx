@@ -10,7 +10,7 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "ABDEV — Estudio de desarrollo web · CDMX",
+  title: "ABDev — Estudio de desarrollo web · CDMX",
   description:
     "Transformamos ideas en experiencias digitales. Desarrollo web moderno con Next.js, Supabase y Agentes AI. Ciudad de México.",
 };

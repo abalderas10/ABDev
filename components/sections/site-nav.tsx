@@ -10,6 +10,7 @@ const LINKS = [
   { href: "#paquetes", label: "Paquetes" },
   { href: "#proceso", label: "Proceso" },
   { href: "#agente", label: "Agente AI" },
+  { href: "#agenda", label: "Agenda" },
 ];
 
 export function SiteNav() {

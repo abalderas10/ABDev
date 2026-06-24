@@ -23,7 +23,7 @@ interface SendArgs {
   channel?: "sms" | "whatsapp";
 }
 
-/** Owner's number to alert about new leads (defaults to ABDEV's number). */
+/** Owner's number to alert about new leads (defaults to ABDev's number). */
 const DEFAULT_NOTIFY_TO = "+525561800423";
 
 export async function sendTwilioMessage({

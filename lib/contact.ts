@@ -1,4 +1,4 @@
-// Centralized contact constants for ABDEV.
+// Centralized contact constants for ABDev.
 // The prototype used the local number `5561800423`. For international wa.me
 // links the country code (52 for Mexico) is required, so we keep both forms.
 
@@ -7,7 +7,6 @@ export const WA_NUMBER_INTL = `52${WA_NUMBER_LOCAL}`;
 
 export const CONTACT_EMAIL = "hola@abdev.click";
 export const PERSONAL_EMAIL = "alberto@abdev.click";
-export const CAL_LINK = "https://cal.com/alberto-balderas/30min";
 
 /** Build a wa.me link with a pre-filled (already human-readable) message. */
 export function waLink(message: string): string {

@@ -1,7 +1,7 @@
 import { ArrowUpRight, Calendar } from "lucide-react";
 import { Reveal } from "@/components/abdev/reveal";
 import { WhatsAppIcon } from "@/components/abdev/icons";
-import { waLink, WA_MESSAGES, CAL_LINK } from "@/lib/contact";
+import { waLink, WA_MESSAGES } from "@/lib/contact";
 
 export function Contact() {
   return (
@@ -9,7 +9,7 @@ export function Contact() {
       <div className="frame">
         <Reveal className="sect-head center">
           <div className="eyebrow">
-            <span className="num">06</span> Empezar
+            <span className="num">07</span> Empezar
           </div>
           <h2 className="h2">¿Tu próximo proyecto?</h2>
           <p className="h2-sub">
@@ -44,9 +44,7 @@ export function Contact() {
           </a>
 
           <a
-            href={CAL_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#agenda"
             className="contact-card"
             style={{ ["--i" as string]: 1 }}
           >
