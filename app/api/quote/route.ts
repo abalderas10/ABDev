@@ -8,6 +8,7 @@ interface QuoteBody {
   contact?: string;
   project?: string;
   budget?: string;
+  capabilities?: unknown;
 }
 
 export async function POST(req: Request) {
@@ -22,6 +23,12 @@ export async function POST(req: Request) {
   const contact = (body.contact ?? "").toString().trim().slice(0, 200);
   const project = (body.project ?? "").toString().trim().slice(0, 4000);
   const budget = (body.budget ?? "").toString().trim().slice(0, 200) || null;
+  const capabilities = Array.isArray(body.capabilities)
+    ? body.capabilities
+        .map((c) => String(c).trim().slice(0, 120))
+        .filter(Boolean)
+        .slice(0, 30)
+    : [];
 
   if (!name || !contact || !project) {
     return Response.json({ ok: false, error: "missing_fields" }, { status: 422 });
@@ -40,7 +47,7 @@ export async function POST(req: Request) {
     const supabase = await createClient();
     const { error } = await supabase
       .from("quote_requests")
-      .insert({ name, contact, project, budget, source: "paquetes" });
+      .insert({ name, contact, project, budget, capabilities, source: "paquetes" });
 
     if (error) {
       console.error("quote insert error", error.message);
