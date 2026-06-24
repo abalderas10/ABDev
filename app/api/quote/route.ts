@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { notifyOwner } from "@/lib/twilio";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -34,29 +35,34 @@ export async function POST(req: Request) {
     return Response.json({ ok: false, error: "missing_fields" }, { status: 422 });
   }
 
-  // If Supabase isn't configured yet, fail soft (200) so the client still
-  // falls back to WhatsApp instead of surfacing an error.
+  let saved = false;
+
+  // Persist the lead to Supabase when configured (best-effort).
   if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY
   ) {
-    return Response.json({ ok: false, error: "unconfigured" }, { status: 200 });
-  }
-
-  try {
-    const supabase = await createClient();
-    const { error } = await supabase
-      .from("quote_requests")
-      .insert({ name, contact, project, budget, capabilities, source: "paquetes" });
-
-    if (error) {
-      console.error("quote insert error", error.message);
-      return Response.json({ ok: false, error: "insert_failed" }, { status: 200 });
+    try {
+      const supabase = await createClient();
+      const { error } = await supabase
+        .from("quote_requests")
+        .insert({ name, contact, project, budget, capabilities, source: "paquetes" });
+      if (error) console.error("quote insert error", error.message);
+      else saved = true;
+    } catch (err) {
+      console.error("quote route error", err);
     }
-
-    return Response.json({ ok: true });
-  } catch (err) {
-    console.error("quote route error", err);
-    return Response.json({ ok: false, error: "exception" }, { status: 200 });
   }
+
+  // Alert the owner over WhatsApp/SMS (best-effort, independent of the insert).
+  const alert =
+    "🟢 Nuevo lead ABDev (cotización)\n" +
+    `Nombre: ${name}\n` +
+    `Contacto: ${contact}\n` +
+    (budget ? `Tipo: ${budget}\n` : "") +
+    (capabilities.length ? `Capacidades: ${capabilities.join(", ")}\n` : "") +
+    `Proyecto: ${project}`;
+  const notified = await notifyOwner(alert);
+
+  return Response.json({ ok: true, saved, notified: notified.ok });
 }
