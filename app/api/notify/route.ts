@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { notifyOwner } from "@/lib/twilio";
+import { notifyOwner } from "@/lib/notify";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

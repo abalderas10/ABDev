@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { notifyOwner } from "@/lib/twilio";
+import { notifyOwner } from "@/lib/notify";
 import { sendEmail, ownerEmail } from "@/lib/email";
 
 export const runtime = "nodejs";
