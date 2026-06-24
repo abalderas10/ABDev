@@ -61,7 +61,7 @@ const FEATURES: {
     view: "systems",
     icon: Workflow,
     title: "Conectado a tus sistemas",
-    desc: "Agenda en Cal.com, crea registros en Supabase, manda emails, cobra con Stripe. Acciones reales.",
+    desc: "Agenda citas, guarda leads en tu base de datos, manda correos y avisa por WhatsApp. Acciones reales.",
   },
 ];
 
@@ -77,11 +77,11 @@ const SYS_ITEMS = [
     icon: Calendar,
     title: "Cita agendada · mié 28 may, 3:00 pm",
     sub: "Reunión de descubrimiento creada",
-    tool: "Cal.com",
+    tool: "Agenda propia",
   },
   {
     icon: Database,
-    title: "Lead guardado en el CRM",
+    title: "Lead guardado en la base de datos",
     sub: "Contacto + intención + presupuesto registrados",
     tool: "Supabase",
   },
@@ -89,7 +89,7 @@ const SYS_ITEMS = [
     icon: Mail,
     title: "Email de confirmación enviado",
     sub: "Resumen + liga de la reunión al cliente",
-    tool: "Resend",
+    tool: "Gmail",
   },
   {
     icon: CreditCard,
@@ -101,7 +101,7 @@ const SYS_ITEMS = [
     icon: WhatsAppIcon,
     title: "Confirmación enviada por WhatsApp",
     sub: "El cliente recibe todo en su chat",
-    tool: "WAHA",
+    tool: "Twilio",
   },
 ];
 
@@ -109,7 +109,7 @@ const GREETING: ChatMsg = {
   role: "assistant",
   greeting: true,
   content:
-    "Hola, soy el agente de ABDEV. Conozco todos los proyectos, paquetes y procesos del estudio. ¿Qué quieres saber?",
+    "Hola, soy el agente de ABDev. Conozco todos los proyectos, paquetes y procesos del estudio. ¿Qué quieres saber?",
 };
 
 export function AgentDemo() {
@@ -333,20 +333,20 @@ export function AgentDemo() {
   function chanWhatsApp() {
     window.open(
       waLink(
-        "Hola ABDEV, vi la demo del agente AI y quiero información del servicio de desarrollo web.",
+        "Hola ABDev, vi la demo del agente AI y quiero información del servicio de desarrollo web.",
       ),
       "_blank",
     );
   }
   function chanSMS() {
     window.location.href = smsLink(
-      "Hola ABDEV, quiero info del servicio de desarrollo web y agente AI.",
+      "Hola ABDev, quiero info del servicio de desarrollo web y agente AI.",
     );
   }
   function chanEmailFn() {
     window.location.href = mailtoLink(
-      "Quiero un sitio con agente AI — ABDEV",
-      `Hola Alberto,\n\nVi la demo del agente AI en el sitio de ABDEV y me interesa el servicio de desarrollo web.\n\nMi correo: ${chanEmail.trim()}\n`,
+      "Quiero un sitio con agente AI — ABDev",
+      `Hola Alberto,\n\nVi la demo del agente AI en el sitio de ABDev y me interesa el servicio de desarrollo web.\n\nMi correo: ${chanEmail.trim()}\n`,
     );
   }
   async function chanCall() {
@@ -411,7 +411,7 @@ export function AgentDemo() {
             </h2>
           </div>
           <p className="h2-sub">
-            El chat de abajo conoce ABDEV de memoria. Pregúntale por precios,
+            El chat de abajo conoce ABDev de memoria. Pregúntale por precios,
             proyectos o cómo construir uno para tu negocio.
           </p>
         </Reveal>
@@ -447,7 +447,7 @@ export function AgentDemo() {
                 <div className="product-brand">
                   <span className="product-brand-mark">AB</span>
                   <div className="product-brand-info">
-                    <span className="product-brand-name">Agente ABDEV</span>
+                    <span className="product-brand-name">Agente ABDev</span>
                     <span className="product-brand-tag">v2.1 · sonnet</span>
                   </div>
                 </div>
@@ -510,7 +510,7 @@ export function AgentDemo() {
                                 {m.greeting ? (
                                   <>
                                     Hola, soy el agente de{" "}
-                                    <strong>ABDEV</strong>. Conozco todos los
+                                    <strong>ABDev</strong>. Conozco todos los
                                     proyectos, paquetes y procesos del estudio.
                                     ¿Qué quieres saber?
                                   </>
@@ -702,7 +702,7 @@ export function AgentDemo() {
                 </div>
                 <div className="chan-status">{chanStatus}</div>
                 <p className="chan-note">
-                  Demostración del servicio de desarrollo de ABDEV. WhatsApp, SMS
+                  Demostración del servicio de desarrollo de ABDev. WhatsApp, SMS
                   y email abren tu app con un mensaje listo; la llamada AI deja tu
                   número en cola para contactarte.
                 </p>
@@ -753,7 +753,7 @@ export function AgentDemo() {
                 </div>
               </div>
               <div className="sys-foot">
-                {["Cal.com", "Supabase", "Resend", "Stripe", "n8n", "WAHA"].map(
+                {["Supabase", "Gmail", "Twilio", "Next.js", "Vercel", "Stripe"].map(
                   (c) => (
                     <span className="sys-chip" key={c}>
                       {c}

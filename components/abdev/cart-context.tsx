@@ -170,7 +170,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       .join("\n");
     const totalStr = total.toLocaleString("es-MX");
     const msg = [
-      "Hola Alberto, quiero iniciar un proyecto con ABDEV.",
+      "Hola Alberto, quiero iniciar un proyecto con ABDev.",
       "",
       "*Mi información:*",
       `Nombre: ${cart.nombre}`,

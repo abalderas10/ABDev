@@ -2,7 +2,6 @@ import {
   waLink,
   WA_NUMBER_INTL,
   WA_MESSAGES,
-  CAL_LINK,
   PERSONAL_EMAIL,
 } from "@/lib/contact";
 
@@ -18,7 +17,7 @@ export function SiteFooter() {
               que valga la pena.
             </h4>
             <p>
-              ABDEV es el estudio de Alberto Balderas. Desarrollo web, sistemas y
+              ABDev es el estudio de Alberto Balderas. Desarrollo web, sistemas y
               agentes AI desde Ciudad de México.
             </p>
             <a
@@ -62,9 +61,7 @@ export function SiteFooter() {
                 </a>
               </li>
               <li>
-                <a href={CAL_LINK} target="_blank" rel="noopener noreferrer">
-                  Agendar 30 min
-                </a>
+                <a href="#agenda">Agendar 30 min</a>
               </li>
               <li>
                 <a href={`mailto:${PERSONAL_EMAIL}`}>{PERSONAL_EMAIL}</a>
@@ -96,7 +93,7 @@ export function SiteFooter() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 ABDEV · Alberto Balderas</span>
+          <span>© 2026 ABDev · Alberto Balderas</span>
           <span>Hecho en CDMX · Powered by café y Next.js</span>
         </div>
       </div>

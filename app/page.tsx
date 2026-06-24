@@ -8,6 +8,7 @@ import { Projects } from "@/components/sections/projects";
 import { Packages } from "@/components/sections/packages";
 import { ProcessPipeline } from "@/components/sections/process-pipeline";
 import { AgentDemo } from "@/components/sections/agent-demo";
+import { Agenda } from "@/components/sections/agenda";
 import { Contact } from "@/components/sections/contact";
 import { SiteFooter } from "@/components/sections/site-footer";
 import { FloatingActions } from "@/components/sections/floating-actions";
@@ -26,6 +27,7 @@ export default function Home() {
           <Packages />
           <ProcessPipeline />
           <AgentDemo />
+          <Agenda />
           <Contact />
         </main>
         <SiteFooter />
