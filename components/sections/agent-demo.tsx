@@ -49,7 +49,7 @@ const FEATURES: {
     view: "voice",
     icon: Mic,
     title: "Chat y voz natural",
-    desc: "Texto o voz en tiempo real con Cartesia. Conversación humana, sin sonar a robot.",
+    desc: "Conversa por texto o por voz en español, directo en el navegador — sin instalar nada.",
   },
   {
     view: "channels",
@@ -349,23 +349,32 @@ export function AgentDemo() {
       `Hola Alberto,\n\nVi la demo del agente AI en el sitio de ABDEV y me interesa el servicio de desarrollo web.\n\nMi correo: ${chanEmail.trim()}\n`,
     );
   }
-  function chanCall() {
+  async function chanCall() {
     const phone = chanDigits();
     if (phone.length < 10) {
-      setChanStatus("⚠ Escribe tu teléfono a 10 dígitos para recibir la llamada.");
+      setChanStatus("⚠ Escribe tu teléfono a 10 dígitos para que te contactemos.");
       return;
     }
-    setChanStatus("📞 En cola · el agente te llamará en ~1 min al " + phone);
-    setTimeout(() => {
-      window.open(
-        waLink(
-          "Nuevo lead desde la demo de ABDEV — solicita llamada del agente AI. Tel: " +
-            phone,
-        ),
-        "_blank",
+    setChanStatus("📞 Registrando tu solicitud…");
+    try {
+      const res = await fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone,
+          email: chanEmail.trim() || undefined,
+          kind: "Solicita llamada del agente AI",
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean };
+      setChanStatus(
+        data?.ok
+          ? "✓ Recibido · te contactamos al " + phone + " muy pronto."
+          : "✓ Anotado · te contactamos al " + phone + " muy pronto.",
       );
-      setChanStatus("✓ Listo · te contactamos al " + phone);
-    }, 1400);
+    } catch {
+      setChanStatus("✓ Anotado · te contactamos al " + phone + " muy pronto.");
+    }
   }
 
   const SegToggle = ({ active }: { active: View }) => (
@@ -612,7 +621,7 @@ export function AgentDemo() {
                 </div>
               </div>
               <div className="voice-foot">
-                <span>Cartesia · voz natural</span>
+                <span>Síntesis de voz en el navegador</span>
                 <span>es-MX</span>
               </div>
             </div>
@@ -711,13 +720,13 @@ export function AgentDemo() {
                 </div>
                 <span className="live-pill">
                   <span className="d" />
-                  Live
+                  Ejemplo
                 </span>
               </div>
               <div className="sys-stage">
                 <p className="sys-intro">
-                  Cuando un cliente cierra, el agente dispara el flujo completo —
-                  solo. Esto ejecutó en la última conversación:
+                  Cuando lo conectamos a tus sistemas, el agente dispara el flujo
+                  completo solo. Así se ve un cierre de principio a fin:
                 </p>
                 <div className="sys-feed">
                   {SYS_ITEMS.map((item, i) => {
